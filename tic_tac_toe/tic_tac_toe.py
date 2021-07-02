@@ -6,13 +6,22 @@ WINDOW_HEIGHT = 150
 
 WINDOW_BACKGROUND_COLOR = 1
 FIELD_COLOR = 11
+TIC_COLOR = 11
+TAC_COLOR = 11
 
 
-class TicTacToeEngine:
+class Field:
     def __init__(self, step=1):
         # NOTE: 1 - X; 0 - O
         self.field = [None for i in range(9)]
-        self.step = step
+        self.__step = step
+
+    def step(self):
+        if self.__step == 1:
+            self.__step = 0
+            return 1
+        self.__step = 1
+        return 0
 
     def game_end(self):
         if None not in self.field:
@@ -20,51 +29,45 @@ class TicTacToeEngine:
         return False
     
     def game_win(self):
-        if self.field[0] == self.field[1] == self.field[2] or \
-           self.field[3] == self.field[4] == self.field[5] or \
-           self.field[6] == self.field[7] == self.field[8] or \
-           self.field[0] == self.field[3] == self.field[6] or \
-           self.field[1] == self.field[4] == self.field[7] or \
-           self.field[2] == self.field[8] == self.field[8] or \
-           self.field[0] == self.field[4] == self.field[8] or \
-           self.field[2] == self.field[4] == self.field[6]:
+        if self.field[0] == self.field[1] == self.field[2] != None or \
+           self.field[3] == self.field[4] == self.field[5] != None or \
+           self.field[6] == self.field[7] == self.field[8] != None or \
+           self.field[0] == self.field[3] == self.field[6] != None or \
+           self.field[1] == self.field[4] == self.field[7] != None or \
+           self.field[2] == self.field[8] == self.field[8] != None or \
+           self.field[0] == self.field[4] == self.field[8] != None or \
+           self.field[2] == self.field[4] == self.field[6] != None:
                return True
         return False
 
 
-class TicTacToeDraw:
-    def __init__(self):
+class Draw:
+    def __init__(self, field=Field()):
         pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT)
         pyxel.mouse(True)
         
         self.to_draw = []
-
-        # TODO: delete this
-        self.last_pos = None
+        self.field = field
 
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        # TODO: delete this
-        if self.last_pos != self.help_find_position():
-            print(f"x: {pyxel.mouse_x}\ty: {pyxel.mouse_y}")
-        self.last_pos = self.help_find_position()
-
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
     def draw(self):
         pyxel.cls(WINDOW_BACKGROUND_COLOR)
         self.draw_text_name_of_game()
-        self.draw_field(FIELD_COLOR)
 
-        self.to_draw = []
+        if not self.field.game_win():
+            self.draw_field(FIELD_COLOR)
 
-        # TODO: delete this
-        #self.draw_tic(57, 18, FIELD_COLOR)
-        if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
-            self.spawn_figure()
-            #print(self.define_square(pyxel.mouse_x, pyxel.mouse_y))
+            if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
+                self.spawn_figure()
+            self.draw_figures()
+
+        if self.field.game_end():
+            print("Game end")
     
     def draw_text_name_of_game(self):
         pyxel.text(53, 7, "Tic-Tac-Toe", pyxel.frame_count // 3 % 16)
@@ -84,16 +87,27 @@ class TicTacToeDraw:
         # tic - O
         pyxel.circb(x + 19, y + 19, 15, color)
 
-    # TODO: delete this
-    def help_find_position(self):
-        #return pyxel.mouse_x, pyxel.mouse_y
-        pass
+    def draw_figures(self):
+        if len(self.to_draw) == 0:
+            return
+        for figure in self.to_draw:
+            if figure[0] == "tac":
+                self.draw_tac(figure[1], figure[2], TAC_COLOR)
+                continue
+            self.draw_tic(figure[1], figure[2], TIC_COLOR)
 
     def spawn_figure(self):
         square = self.define_square(pyxel.mouse_x, pyxel.mouse_y)
         if square != None:
-            field_number, x, y = square
-            self.draw_tac(x, y, FIELD_COLOR)
+            field_num, x, y = square
+            if self.field.field[field_num] != None:
+                return
+
+            self.field.field[field_num] = self.field.step()
+            if self.field.field[field_num] == 1:
+                self.to_draw.append(["tac", x, y])
+                return
+            self.to_draw.append(["tic", x, y])
 
     def define_square(self, x, y, x_begin=18, y_begin=18, x_move=38, y_move=38):
         x_pos, y_pos = x_begin, y_begin
@@ -108,4 +122,4 @@ class TicTacToeDraw:
 
 
 if __name__ == "__main__":
-    TicTacToeDraw()
+    Draw()
