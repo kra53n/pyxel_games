@@ -6,8 +6,8 @@ WINDOW_HEIGHT = 150
 
 WINDOW_BACKGROUND_COLOR = 1
 FIELD_COLOR = 11
-TIC_COLOR = 11
 TAC_COLOR = 11
+TIC_COLOR = 11
 
 
 class Field:
@@ -34,12 +34,12 @@ class Field:
            self.field[6] == self.field[7] == self.field[8] != None or \
            self.field[0] == self.field[3] == self.field[6] != None or \
            self.field[1] == self.field[4] == self.field[7] != None or \
-           self.field[2] == self.field[8] == self.field[8] != None or \
+           self.field[2] == self.field[5] == self.field[8] != None or \
            self.field[0] == self.field[4] == self.field[8] != None or \
            self.field[2] == self.field[4] == self.field[6] != None:
                return True
         return False
-
+    
 
 class Draw:
     def __init__(self, field=Field()):
@@ -65,12 +65,16 @@ class Draw:
             if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
                 self.spawn_figure()
             self.draw_figures()
+
         if self.field.game_win():
-            from time import sleep
-            sleep(2)
             self.game_end_text()
-        #if self.field.game_end():
-        #    print("Game end")
+            self.game_end_win_text()
+            self.game_restart_text(79)
+            self.game_restart()
+        if self.field.game_end():
+            self.game_end_text()
+            self.game_restart_text(72)
+            self.game_restart()
     
     def draw_text_name_of_game(self):
         pyxel.text(53, 7, "Tic-Tac-Toe", pyxel.frame_count // 3 % 16)
@@ -125,6 +129,24 @@ class Draw:
 
     def game_end_text(self):
         pyxel.text(58, 60, "Game END", pyxel.frame_count // 3 % 16)
+
+    def game_end_win_text(self):
+        winner = self.to_draw[-1][0]
+        if winner == "tac":
+            winner = "X"
+            color = TAC_COLOR
+        if winner == "tic":
+            winner = "0"
+            color = TIC_COLOR
+        pyxel.text(60, 67, f"{winner} - win", color)
+
+    def game_restart_text(self, y, x=39):
+        pyxel.text(x, y, "press R to resturt", pyxel.frame_count // 3 % 16)
+
+    def game_restart(self):
+        if pyxel.btnp(pyxel.KEY_R):
+            self.field.field = [None for i in range(9)]
+            self.to_draw = []
 
 
 if __name__ == "__main__":

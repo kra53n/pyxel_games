@@ -1,1 +1,1 @@
-Tetris written of Python with pyxel.
+Games written on Python using Pyxel.
