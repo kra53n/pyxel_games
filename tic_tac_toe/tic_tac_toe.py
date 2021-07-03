@@ -57,17 +57,18 @@ class Draw:
 
     def draw(self):
         pyxel.cls(WINDOW_BACKGROUND_COLOR)
-        self.draw_text_name_of_game()
 
         if not self.field.game_win():
+            self.draw_text_name_of_game()
             self.draw_field(FIELD_COLOR)
 
             if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
                 self.spawn_figure()
             self.draw_figures()
-
-        if self.field.game_end():
-            print("Game end")
+        #if self.field.game_win():
+        #    self.game_end_text()
+        #if self.field.game_end():
+        #    print("Game end")
     
     def draw_text_name_of_game(self):
         pyxel.text(53, 7, "Tic-Tac-Toe", pyxel.frame_count // 3 % 16)
@@ -119,6 +120,9 @@ class Draw:
                 return sq, x_pos, y_pos
             x_pos += x_move
         return None
+
+    def game_end_text(self):
+        pyxel.text(58, 60, "Game END", pyxel.frame_count // 3 % 16)
 
 
 if __name__ == "__main__":
