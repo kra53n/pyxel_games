@@ -65,8 +65,10 @@ class Draw:
             if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
                 self.spawn_figure()
             self.draw_figures()
-        #if self.field.game_win():
-        #    self.game_end_text()
+        if self.field.game_win():
+            from time import sleep
+            sleep(2)
+            self.game_end_text()
         #if self.field.game_end():
         #    print("Game end")
     
