@@ -58,13 +58,12 @@ class Draw:
     def draw(self):
         pyxel.cls(WINDOW_BACKGROUND_COLOR)
 
-        if not self.field.game_win():
-            self.draw_text_name_of_game()
-            self.draw_field(FIELD_COLOR)
+        self.draw_text_name_of_game()
+        self.draw_field(FIELD_COLOR)
 
-            if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
-                self.spawn_figure()
-            self.draw_figures()
+        if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
+            self.spawn_figure()
+        self.draw_figures()
 
         if self.field.game_win():
             self.game_end_text()
