@@ -1,0 +1,7 @@
+SCREEN_TITLE = "Slime game"
+SCREEN_WIDTH = 192
+SCREEN_HEIGHT = 108
+SCREEN_FPS = 60
+SCREEN_SCALE = 4
+
+RESOURCE_FILE = "assets/my_resource.pyxres"
