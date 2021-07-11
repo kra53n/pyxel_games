@@ -2,7 +2,9 @@ import pyxel
 
 
 class Element:
-    def __init__(self, col, move_step, screen_h, screen_w):
+    def __init__(self, x, y, col, move_step, screen_h, screen_w):
+        self.x = x
+        self.y = y
         self.col = col
         self.move_step = move_step
         self.screen_h = screen_h
@@ -10,15 +12,13 @@ class Element:
 
     @property
     def begin(self):
-        return self.x
+        return self.y
 
 
 class Stick(Element):
     def __init__(self, x, y, w, h, col, move_step, screen_h, screen_w):
-        super().__init__(col, move_step, screen_h, screen_w)
+        super().__init__(x, y, col, move_step, screen_h, screen_w)
 
-        self.x = x
-        self.y = y
         self.w = w
         self.h = h
 
@@ -27,7 +27,7 @@ class Stick(Element):
 
     @property
     def end(self):
-        return self.x + self.h
+        return self.y + self.h
     
     def up(self):
         if self.y > 0:
@@ -39,8 +39,22 @@ class Stick(Element):
 
 
 class Ball(Element):
-    def __init__(self, r,):
-        super().__init__(col, move_step, screen_h, screen_w)
+    def __init__(self, x, y, col, move_step, screen_h, screen_w, r):
+        super().__init__(x, y, col, move_step, screen_h, screen_w)
+
+        self.r = r
+        self.move_x = -self.move_step
+        self.move_y = self.move_step
 
     def draw(self):
-        pyxel.circ(self.x, self.y,)
+        pyxel.circ(self.x, self.y, self.r, self.col)
+        self.move()
+
+    def move(self):
+        self.x += self.move_x
+
+    def change_x_direction(self):
+        if self.move_x > 0:
+            self.move_x = -self.move_x
+            return
+        self.move_x = abs(self.move_x)
