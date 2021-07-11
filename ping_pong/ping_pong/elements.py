@@ -14,9 +14,8 @@ class Element:
 
 
 class Stick(Element):
-    def __init__(self, x, y, w, h, **kwargs):
-        # https://tirinox.ru/super-python/
-        super().__init__()
+    def __init__(self, x, y, w, h, col, move_step, screen_h, screen_w):
+        super().__init__(col, move_step, screen_h, screen_w)
 
         self.x = x
         self.y = y
@@ -40,8 +39,8 @@ class Stick(Element):
 
 
 class Ball(Element):
-    def __init__(self, r):
-        super().__init__()
+    def __init__(self, r,):
+        super().__init__(col, move_step, screen_h, screen_w)
 
     def draw(self):
         pyxel.circ(self.x, self.y,)
