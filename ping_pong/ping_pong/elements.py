@@ -14,6 +14,10 @@ class Element:
     def begin(self):
         return self.y
 
+    @property
+    def left_side(self):
+        return self.x
+
 
 class Stick(Element):
     def __init__(self, x, y, w, h, col, move_step, screen_h, screen_w):
@@ -37,6 +41,14 @@ class Stick(Element):
         if self.y + self.h < self.screen_h:
             self.y = self.y + self.move_step
 
+    @property
+    def right_side(self):
+        return self.x + self.w
+
+
+class StickEnemy(Stick):
+    pass
+
 
 class Ball(Element):
     def __init__(self, x, y, col, move_step, screen_h, screen_w, r):
@@ -53,8 +65,25 @@ class Ball(Element):
     def move(self):
         self.x += self.move_x
 
-    def change_x_direction(self):
+    def change_direction(self):
         if self.move_x > 0:
             self.move_x = -self.move_x
             return
         self.move_x = abs(self.move_x)
+
+
+class Text:
+    def __init__(self, screen_h, screen_w):
+        self.screen_h = screen_h
+        self.screen_w = screen_w
+    
+    def lost(self):
+        pyxel.text(0, 0, "Game lost", pyxel.frame_count // 10 % 16)
+
+
+class GameStatus(Text):
+    def __init__(self, screen_h, screen_w):
+        super().__init__(screen_h, screen_w)
+    
+    def lost(self):
+        pyxel.text(0, 0, "Game lost", pyxel.frame_count // 10 % 16)

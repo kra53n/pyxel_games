@@ -2,7 +2,9 @@ import pyxel
 from screen_resolution import get_monitor_resolution
 
 from elements import Stick
+from elements import StickEnemy
 from elements import Ball
+from elements import GameStatus
 
 
 SCREEN_WIDTH, SCREEN_HEIGHT = [i // 10 for i in get_monitor_resolution()]
@@ -47,6 +49,17 @@ class App:
             screen_h=SCREEN_HEIGHT,
             screen_w=SCREEN_WIDTH,
         )
+
+        self.stick_enemy = StickEnemy(
+            x=SCREEN_WIDTH - STICK_MARGIN - STICK_WIDTH,
+            y=(SCREEN_HEIGHT - STICK_HEIGHT) // 2,
+            w=STICK_WIDTH,
+            h=STICK_HEIGHT,
+            col=COLOR_STICK_PLAYER,
+            move_step=STICK_MOVE_STEP,
+            screen_h=SCREEN_HEIGHT,
+            screen_w=SCREEN_WIDTH,
+        )
         
         self.ball = Ball(
             x=SCREEN_WIDTH // 2,
@@ -54,6 +67,11 @@ class App:
             r=BALL_RADIUS,
             col=COLOR_BALL,
             move_step=BALL_SPEED,
+            screen_h=SCREEN_HEIGHT,
+            screen_w=SCREEN_WIDTH,
+        )
+
+        self.game = GameStatus(
             screen_h=SCREEN_HEIGHT,
             screen_w=SCREEN_WIDTH,
         )
@@ -66,6 +84,7 @@ class App:
     def draw(self):
         pyxel.cls(1)
         self.stick_player.draw()
+        self.stick_enemy.draw()
         self.ball.draw()
 
         self.move_stick()
@@ -78,10 +97,25 @@ class App:
             self.stick_player.down()
 
     def change_ball_direction(self):
-        if (self.ball.x <= STICK_MARGIN + STICK_WIDTH + BALL_RADIUS) and \
+        # player stick rebound
+        if (self.ball.x - BALL_RADIUS <= self.stick_player.right_side) and \
            ((self.stick_player.begin < self.ball.y + BALL_RADIUS) and \
            (self.stick_player.end > self.ball.y - BALL_RADIUS)):
-            self.ball.change_x_direction()
+            self.ball.change_direction()
+
+        # enemy stick rebound
+        if (self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side) and \
+           ((self.stick_enemy.begin < self.ball.y + BALL_RADIUS) and \
+           (self.stick_enemy.end > self.ball.y - BALL_RADIUS)):
+            self.ball.change_direction()
+
+        # if player scored
+        if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2):
+            self.ball.change_direction()
+
+        # if enemy scored
+        if 0 >= self.ball.x - BALL_RADIUS:
+            self.ball.change_direction()
 
 
 if __name__ == "__main__":
