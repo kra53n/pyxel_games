@@ -121,11 +121,13 @@ class App:
         if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2):
             self.ball.change_x_direction()
             self.score.player += 1
+            self.ball.return_to_center()
 
         # if enemy scored
         if 0 >= self.ball.x - BALL_RADIUS:
             self.ball.change_x_direction()
             self.score.enemy += 1
+            self.ball.return_to_center()
 
 
 if __name__ == "__main__":

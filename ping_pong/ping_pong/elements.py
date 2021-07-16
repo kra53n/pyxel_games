@@ -71,6 +71,10 @@ class Ball(Element):
             return
         self.move_x = abs(self.move_x)
 
+    def return_to_center(self):
+        self.x = self.screen_w // 2
+        self.y = self.screen_h // 2
+
 
 class Text:
     def __init__(self, screen_h, screen_w):
