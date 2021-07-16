@@ -129,6 +129,14 @@ class App:
             self.score.enemy += 1
             self.ball.return_to_center()
 
+        # rebound from top
+        if self.ball.y + BALL_RADIUS <= 0:
+            self.ball.change_y_direction()
+
+        # reobund from bottom
+        if self.ball.y - BALL_RADIUS >= SCREEN_HEIGHT:
+            self.ball.change_y_direction()
+
 
 if __name__ == "__main__":
     App()

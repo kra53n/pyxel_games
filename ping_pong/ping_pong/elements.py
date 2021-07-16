@@ -64,12 +64,19 @@ class Ball(Element):
 
     def move(self):
         self.x += self.move_x
+        self.y += self.move_y
 
     def change_x_direction(self):
         if self.move_x > 0:
             self.move_x = -self.move_x
             return
         self.move_x = abs(self.move_x)
+
+    def change_y_direction(self):
+        if self.move_y > 0:
+            self.move_y = -self.move_y
+            return
+        self.move_y = abs(self.move_y)
 
     def return_to_center(self):
         self.x = self.screen_w // 2
