@@ -5,3 +5,5 @@
 - [x] draw circle - ball
 - [x] draw lost of the game
 - [x] add enemy stick
+- [ ] add moving of ball to y
+- [ ] add scores

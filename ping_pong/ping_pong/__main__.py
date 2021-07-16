@@ -4,6 +4,7 @@ from screen_resolution import get_monitor_resolution
 from elements import Stick
 from elements import StickEnemy
 from elements import Ball
+from elements import Score
 from elements import GameStatus
 
 
@@ -71,6 +72,12 @@ class App:
             screen_w=SCREEN_WIDTH,
         )
 
+        self.score = Score(
+            screen_h=SCREEN_HEIGHT,
+            screen_w=SCREEN_WIDTH,
+            col=8,
+        )
+
         self.game = GameStatus(
             screen_h=SCREEN_HEIGHT,
             screen_w=SCREEN_WIDTH,
@@ -86,6 +93,7 @@ class App:
         self.stick_player.draw()
         self.stick_enemy.draw()
         self.ball.draw()
+        self.score.draw()
 
         self.move_stick()
         self.change_ball_direction()
@@ -101,21 +109,23 @@ class App:
         if (self.ball.x - BALL_RADIUS <= self.stick_player.right_side) and \
            ((self.stick_player.begin < self.ball.y + BALL_RADIUS) and \
            (self.stick_player.end > self.ball.y - BALL_RADIUS)):
-            self.ball.change_direction()
+            self.ball.change_x_direction()
 
         # enemy stick rebound
         if (self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side) and \
            ((self.stick_enemy.begin < self.ball.y + BALL_RADIUS) and \
            (self.stick_enemy.end > self.ball.y - BALL_RADIUS)):
-            self.ball.change_direction()
+            self.ball.change_x_direction()
 
         # if player scored
         if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2):
-            self.ball.change_direction()
+            self.ball.change_x_direction()
+            self.score.player += 1
 
         # if enemy scored
         if 0 >= self.ball.x - BALL_RADIUS:
-            self.ball.change_direction()
+            self.ball.change_x_direction()
+            self.score.enemy += 1
 
 
 if __name__ == "__main__":

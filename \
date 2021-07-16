@@ -91,28 +91,8 @@ class Score(Text):
         super().__init__(screen_h, screen_w)
 
         self.col = col
-        self.player = 0
-        self.enemy = 0
+        self.player = 1
+        self.enemy = 9
 
     def draw(self):
-        pyxel.text(
-            self.__x_coord(),
-            0,
-            f"{self.player}:{self.enemy}",
-            self.col
-        )
-
-    def __width(self):
-        """
-        Define width of text
-            1 digit takes 4 pixels
-            1 colons takes 3 pixelx
-        """
-        digits = len(str(self.player)) + len(str(self.enemy))
-        return (digits * 4) + 3
-
-    def __x_coord(self):
-        """
-        Define x coord for spawning text in the middle
-        """
-        return (self.screen_w - self.__width()) // 2
+        pyxel.text(0, 0, f"{self.player}:{self.enemy}", self.col)
