@@ -7,5 +7,7 @@
 - [x] add enemy stick
 - [x] add moving of ball to y
 - [x] add scores
+- [x] add random moving of ball
+- [ ] add game stoping
 - [ ] add moving of enemy
 - [ ] add rising of ball speed

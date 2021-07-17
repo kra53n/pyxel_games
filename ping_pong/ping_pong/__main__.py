@@ -19,7 +19,7 @@ STICK_MARGIN = 3
 STICK_MOVE_STEP = 1
 
 BALL_RADIUS = 1
-BALL_SPEED = 0.5
+BALL_SPEED = 0.8
 
 COLOR_STICK_PLAYER = 8
 COLOR_STICK_ENEMY = 8
@@ -83,6 +83,8 @@ class App:
             screen_w=SCREEN_WIDTH,
         )
 
+        self.run = False
+
         pyxel.run(self.update, self.draw)
     
     def update(self):
@@ -92,17 +94,20 @@ class App:
         pyxel.cls(1)
         self.stick_player.draw()
         self.stick_enemy.draw()
-        self.ball.draw()
         self.score.draw()
 
+        self.game_run()
+
+        self.ball.draw(self.run)
         self.move_stick()
+
         self.change_ball_direction()
 
     def move_stick(self):
         if pyxel.btn(pyxel.KEY_W):
-            self.stick_player.up()
+            self.stick_player.up(self.run)
         if pyxel.btn(pyxel.KEY_S):
-            self.stick_player.down()
+            self.stick_player.down(self.run)
 
     def change_ball_direction(self):
         # player stick rebound
@@ -122,20 +127,28 @@ class App:
             self.ball.change_x_direction()
             self.score.player += 1
             self.ball.return_to_center()
+            self.run = False
 
         # if enemy scored
         if 0 >= self.ball.x - BALL_RADIUS:
             self.ball.change_x_direction()
             self.score.enemy += 1
             self.ball.return_to_center()
+            self.run = False
 
         # rebound from top
-        if self.ball.y + BALL_RADIUS <= 0:
+        if self.ball.y - BALL_RADIUS <= 0:
             self.ball.change_y_direction()
 
         # reobund from bottom
-        if self.ball.y - BALL_RADIUS >= SCREEN_HEIGHT:
+        if self.ball.y + BALL_RADIUS >= SCREEN_HEIGHT:
             self.ball.change_y_direction()
+
+    def game_run(self):
+        if pyxel.btnp(pyxel.KEY_SPACE) or self.run == True:
+            self.run = True
+            return True
+        return False
 
 
 if __name__ == "__main__":

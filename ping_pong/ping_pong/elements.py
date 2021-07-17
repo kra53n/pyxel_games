@@ -1,3 +1,5 @@
+from random import randrange
+
 import pyxel
 
 
@@ -33,12 +35,12 @@ class Stick(Element):
     def end(self):
         return self.y + self.h
     
-    def up(self):
-        if self.y > 0:
+    def up(self, to_move):
+        if (self.y > 0) and to_move:
             self.y = self.y - self.move_step
 
-    def down(self):
-        if self.y + self.h < self.screen_h:
+    def down(self, to_move):
+        if (self.y + self.h < self.screen_h) and to_move:
             self.y = self.y + self.move_step
 
     @property
@@ -55,12 +57,16 @@ class Ball(Element):
         super().__init__(x, y, col, move_step, screen_h, screen_w)
 
         self.r = r
+        self.move_step = randrange(
+            self.move_step * 10 - 3, (self.move_step * 10)
+        ) / 10
         self.move_x = -self.move_step
         self.move_y = self.move_step
 
-    def draw(self):
+    def draw(self, to_move):
         pyxel.circ(self.x, self.y, self.r, self.col)
-        self.move()
+        if to_move:
+            self.move()
 
     def move(self):
         self.x += self.move_x
