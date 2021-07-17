@@ -49,7 +49,19 @@ class Stick(Element):
 
 
 class StickEnemy(Stick):
-    pass
+    def draw(self, ball_x, ball_y):
+        super().draw()
+        self.move(ball_x, ball_y)
+
+    def move(self, ball_x, ball_y):
+        self.__y1 = self.y
+        self.__y2 = self.y + self.h
+
+        if ball_x >= self.screen_w // 2:
+            if ball_y < self.__y1:
+                self.y -= 1
+            if ball_y > self.__y2:
+                self.y += 1
 
 
 class Ball(Element):

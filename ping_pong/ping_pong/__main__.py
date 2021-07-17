@@ -93,7 +93,7 @@ class App:
     def draw(self):
         pyxel.cls(1)
         self.stick_player.draw()
-        self.stick_enemy.draw()
+        self.stick_enemy.draw(self.ball.x, self.ball.y)
         self.score.draw()
 
         self.game_run()
