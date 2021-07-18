@@ -10,4 +10,4 @@
 - [x] add random moving of ball
 - [x] add game stoping
 - [x] add moving of enemy
-- [ ] add rising of ball speed
+- [x] add rising of ball speed

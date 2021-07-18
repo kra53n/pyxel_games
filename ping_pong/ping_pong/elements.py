@@ -1,4 +1,5 @@
 from random import randrange
+from math import sqrt
 
 import pyxel
 
@@ -49,15 +50,15 @@ class Stick(Element):
 
 
 class StickEnemy(Stick):
-    def draw(self, ball_x, ball_y):
+    def draw(self, ball_x, ball_y, ball_x_move):
         super().draw()
-        self.move(ball_x, ball_y)
+        self.move(ball_x, ball_y, ball_x_move)
 
-    def move(self, ball_x, ball_y):
+    def move(self, ball_x, ball_y, ball_x_move):
         self.__y1 = self.y
         self.__y2 = self.y + self.h
 
-        if ball_x >= self.screen_w // 2:
+        if ball_x_move > 0:
             if ball_y < self.__y1:
                 self.y -= 1
             if ball_y > self.__y2:
@@ -69,11 +70,7 @@ class Ball(Element):
         super().__init__(x, y, col, move_step, screen_h, screen_w)
 
         self.r = r
-        self.move_step = randrange(
-            self.move_step * 10 - 3, (self.move_step * 10)
-        ) / 10
-        self.move_x = -self.move_step
-        self.move_y = self.move_step
+        self.give_normal_speed()
 
     def draw(self, to_move):
         pyxel.circ(self.x, self.y, self.r, self.col)
@@ -83,6 +80,28 @@ class Ball(Element):
     def move(self):
         self.x += self.move_x
         self.y += self.move_y
+
+    def give_normal_speed(self):
+        move_step = randrange(
+            self.move_step * 10 - 3, (self.move_step * 10)
+        ) / 10
+
+        self.move_x = -self.move_step
+        self.move_y = self.move_step
+
+    def increase_speed(self):
+        x = self.move_x
+        move_step = sqrt(abs(x)) / 100
+
+        if self.move_x > 0:
+            self.move_x += move_step
+        if self.move_x < 0:
+            self.move_x -= move_step
+
+        if self.move_y > 0:
+            self.move_y += move_step
+        if self.move_y < 0:
+            self.move_y -= move_step
 
     def change_x_direction(self):
         if self.move_x > 0:
@@ -126,7 +145,7 @@ class Score(Text):
     def draw(self):
         pyxel.text(
             self.__x_coord(),
-            0,
+            3,
             f"{self.player}:{self.enemy}",
             self.col
         )
