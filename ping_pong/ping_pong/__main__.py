@@ -40,6 +40,9 @@ class App:
             fullscreen=True,
         )
 
+        pyxel.load("assets/my_resource.pyxres", sound=True)
+        pyxel.playm(0, loop=True)
+
         self.stick_player = Stick(
             x=STICK_MARGIN,
             y=(SCREEN_HEIGHT - STICK_HEIGHT) // 2,
@@ -126,6 +129,7 @@ class App:
 
         # if player scored
         if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2):
+            pyxel.play(1, 2)
             self.ball.change_x_direction()
             self.score.player += 1
             self.ball.return_to_center()
@@ -134,6 +138,7 @@ class App:
 
         # if enemy scored
         if 0 >= self.ball.x - BALL_RADIUS:
+            pyxel.play(1, 1)
             self.ball.change_x_direction()
             self.score.enemy += 1
             self.ball.return_to_center()
