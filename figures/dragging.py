@@ -58,7 +58,23 @@ class Stick:
         self.y2 = y2
 
     def draw(self):
+        self.__dragging()
         pyxel.line(self.x1, self.y1, self.x2, self.y2, (Colors.bg + 1) % 16)
+
+    def __dragging(self):
+        if self.x1 - 10 < pyxel.mouse_x and pyxel.mouse_x < self.x1 + 10 and \
+           self.y1 - 10 < pyxel.mouse_y and pyxel.mouse_y < self.y1 + 10 and \
+           pyxel.btn(pyxel.MOUSE_LEFT_BUTTON):
+            self.x1 = pyxel.mouse_x
+            self.y1 = pyxel.mouse_y
+            print(self.x1, self.y1)
+
+        if self.x2 - 10 < pyxel.mouse_x and pyxel.mouse_x < self.x2 + 10 and \
+           self.y2 - 10 < pyxel.mouse_y and pyxel.mouse_y < self.y2 + 10 and \
+           pyxel.btn(pyxel.MOUSE_LEFT_BUTTON):
+            print(pyxel.mouse_x, pyxel.mouse_y)
+            self.x2 = pyxel.mouse_x
+            self.y2 = pyxel.mouse_y
 
 
 class App:
