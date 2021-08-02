@@ -62,6 +62,11 @@ class Stick:
         pyxel.line(self.x1, self.y1, self.x2, self.y2, (Colors.bg + 1) % 16)
 
     def __dragging(self):
+        #if (self.__calc_max_len > 35) and \
+        #   ((pyxel.mouse_x < self.x1 and pyxel.mouse_x > self.x2) or \
+        #   (pyxel.mouse_y < self.y1 and pyxel.mouse_y > self.y2)):
+        #    return
+
         if self.x1 - 10 < pyxel.mouse_x and pyxel.mouse_x < self.x1 + 10 and \
            self.y1 - 10 < pyxel.mouse_y and pyxel.mouse_y < self.y1 + 10 and \
            pyxel.btn(pyxel.MOUSE_LEFT_BUTTON):
@@ -74,8 +79,9 @@ class Stick:
             self.x2 = pyxel.mouse_x
             self.y2 = pyxel.mouse_y
 
+    @property
     def __calc_max_len(self):
-        pass
+        return (abs(self.x2 - self.x1)**2 + abs(self.y2 - self.y1)**2) ** 0.5
 
 
 class App:
