@@ -51,7 +51,7 @@ class ColorSetter:
 
 
 class Stick:
-    def __init__(self, x1, y1, x2, y2):
+    def __init__(self, x1, y1, x2, y2, max_len=10):
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
@@ -67,14 +67,15 @@ class Stick:
            pyxel.btn(pyxel.MOUSE_LEFT_BUTTON):
             self.x1 = pyxel.mouse_x
             self.y1 = pyxel.mouse_y
-            print(self.x1, self.y1)
 
         if self.x2 - 10 < pyxel.mouse_x and pyxel.mouse_x < self.x2 + 10 and \
            self.y2 - 10 < pyxel.mouse_y and pyxel.mouse_y < self.y2 + 10 and \
            pyxel.btn(pyxel.MOUSE_LEFT_BUTTON):
-            print(pyxel.mouse_x, pyxel.mouse_y)
             self.x2 = pyxel.mouse_x
             self.y2 = pyxel.mouse_y
+
+    def __calc_max_len(self):
+        pass
 
 
 class App:
@@ -84,8 +85,11 @@ class App:
             height=SCREEN_HEIGHT,
         )
 
+        self.stick = Stick(44, 120, SCREEN_WIDTH - 44, 120)
+
         self.drawing_switcher = {
-            "color_setter": False
+            "color_setter": False,
+            "stick_setter": True,
         }
 
         pyxel.mouse(True)
@@ -101,16 +105,21 @@ class App:
         if self.drawing_switcher["color_setter"]:
             ColorSetter(x=(SCREEN_WIDTH - 44) // 2, y=(SCREEN_HEIGHT - 44) // 2).draw()
 
-        Stick(44, 120, SCREEN_WIDTH - 44, 120).draw()
+        if self.drawing_switcher["stick_setter"]:
+            self.stick.draw()
 
         self.__buttons_press_check()
 
     def __buttons_press_check(self):
-        if pyxel.btnp(pyxel.KEY_C):
-            if self.drawing_switcher["color_setter"]:
-                self.drawing_switcher["color_setter"] = False
+        self.__drawing_switcher_contidion(pyxel.KEY_C, "color_setter")
+        self.__drawing_switcher_contidion(pyxel.KEY_S, "stick_setter")
+
+    def __drawing_switcher_contidion(self, key, setter):
+        if pyxel.btnp(key):
+            if self.drawing_switcher[setter]:
+                self.drawing_switcher[setter] = False
             else:
-                self.__change_drawing_switcher("color_setter")
+                self.__change_drawing_switcher(setter)
 
     def __change_drawing_switcher(self, to_switch):
         for key in self.drawing_switcher.keys():
