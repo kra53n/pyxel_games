@@ -8,6 +8,12 @@ SCREEN_HEIGHT = 132
 class Colors:
     bg = 0
 
+    @staticmethod
+    def save(name="colors", extension="txt"):
+        with open(f"{name}.{extension}", "a") as f:
+            data = f"bg = {Colors.bg}"
+            f.write(data)
+
 
 class ColorSetter:
     def __init__(self, x=0, y=0, num_of_rows=4, distance=4):
@@ -84,6 +90,11 @@ class Stick:
         return (abs(self.x2 - self.x1)**2 + abs(self.y2 - self.y1)**2) ** 0.5
 
 
+class Buttons:
+    def __init__(self):
+        pass
+
+
 class App:
     def __init__(self):
         pyxel.init(
@@ -137,3 +148,4 @@ class App:
 
 if __name__ == "__main__":
     App()
+    Colors.save()
