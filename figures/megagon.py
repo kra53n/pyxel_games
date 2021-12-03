@@ -1,8 +1,4 @@
-from math import (
-    pi,
-    cos,
-    sin,
-)
+from math import pi, cos, sin,
 import pyxel
 
 
