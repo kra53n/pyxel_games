@@ -1,4 +1,4 @@
-from math import pi, cos, sin,
+from math import pi, cos, sin
 import pyxel
 
 
@@ -24,12 +24,11 @@ class Megagon:
         self.fg = fg
 
     def _coords(self):
-        x_coords = [round(cos(self.step * i + self.rotate_pos) * self.w) + self.x
-            for i in range(1, self.vers_num + 1)]
-        y_coords = [round(sin(self.step * i + self.rotate_pos) * self.h) + self.y
-            for i in range(1, self.vers_num + 1)]
-
-        return zip(x_coords, y_coords)
+        return (
+            [round(cos(self.step * vert + self.rotate_pos) * self.w) + self.x,
+             round(sin(self.step * vert + self.rotate_pos) * self.h) + self.y]
+            for vert in range(1, self.vers_num + 1)
+        )
 
     def _draw_pixels(self):
         for point in self._coords():
