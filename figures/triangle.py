@@ -9,6 +9,38 @@ screen = {
 }
 
 
+class Button:
+    def __init__(self, x, y, w, h, col1, col2, interval=1):
+        self.x = x
+        self.y = y
+        #self.w = w
+        #self.h = h
+        self.w = self.h = 12
+        self.col1 = col1
+        self.col2 = col2
+        self.interval = interval
+    
+    def _press(self):
+        if pyxel.btn(pyxel.MOUSE_LEFT_BUTTON) and \
+        self.x <= pyxel.mouse_x <= self.x + self.w and \
+        self.y <= pyxel.mouse_y <= self.y + self.h:
+           self.col1, self.col2 = self.col2, self.col1
+
+    def draw(self):
+        interval2 = self.interval * 2
+        pyxel.rect(self.x, self.y, self.w, self.h, self.col1)
+        pyxel.rect(self.x + self.interval, self.y + self.interval,
+            self.w - self.interval * 2, self.h - self.interval * 2, self.col2)
+        pyxel.rect(self.x + interval2, self.y + interval2,
+            self.w - interval2 * 2, self.h - interval2 * 2, self.col1)
+        #self._press()
+
+
+class ButtonText(Button):
+    def __init__(self, txt, x, y, w, h, col1, col2, interval=1):
+        super().__init__(x, y, w, h, col1, col2, interval)
+
+
 class Tri:
     def __init__(self, coords=None, col=3, r=2, col_r=7):
         self.coords = coords
@@ -81,6 +113,7 @@ class App:
 
         pyxel.mouse(True)
         self.tr1 = Tri()
+        self.btn1 = Button(0, 0, 10, 10, 3, 4)
 
         pyxel.run(self._update, self._draw)
 
@@ -91,6 +124,7 @@ class App:
     def _draw(self):
         pyxel.cls(screen["bg"])
         self.tr1.draw()
+        self.btn1.draw()
 
 
 if __name__ == "__main__":
