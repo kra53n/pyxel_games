@@ -68,10 +68,10 @@ class MegagonsPattern:
     ):
         self.x = x
         self.y = y
-        self.figure_width = figure_width
-        self.figure_height = figure_height
-        self.surface_width = surface_width
-        self.surface_height = surface_height
+        self.fig_wdt = figure_width
+        self.fig_hgt = figure_height
+        self.srf_wdt = surface_width
+        self.srf_hgt = surface_height
         self.vers_num = vers_num
         self.col = col
 
@@ -79,16 +79,10 @@ class MegagonsPattern:
 
     def _init_elements(self):
         self.elements = []
-        for x in range(self.figure_width + self.x, self.surface_width, self.figure_width*2):
-            for y in range(self.figure_height + self.y, self.surface_height, self.figure_height*2):
-                self.elements.append(Megagon(
-                    x,
-                    y,
-                    self.figure_width,
-                    self.figure_height,
-                    self.vers_num,
-                    self.col,
-                ))
+        for x in range(self.fig_wdt + self.x, self.srf_wdt, self.fig_wdt*2):
+            for y in range(self.fig_hgt + self.y, self.srf_hgt, self.fig_hgt*2):
+                self.elements.append(
+                    Megagon(x, y, self.fig_wdt, self.fig_hgt, self.vers_num, self.col))
 
     def draw(self, elemname):
         for el in self.elements:
