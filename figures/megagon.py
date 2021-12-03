@@ -25,8 +25,8 @@ class Megagon:
 
     def _coords(self):
         return (
-            [round(cos(self.step * vert + self.rotate_pos) * self.w) + self.x,
-             round(sin(self.step * vert + self.rotate_pos) * self.h) + self.y]
+            (round(cos(self.step * vert + self.rotate_pos) * self.w) + self.x,
+             round(sin(self.step * vert + self.rotate_pos) * self.h) + self.y)
             for vert in range(1, self.vers_num + 1)
         )
 
