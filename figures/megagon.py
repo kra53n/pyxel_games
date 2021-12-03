@@ -80,16 +80,8 @@ class MegagonsPattern:
 
     def _init_elements(self):
         self.elements = []
-        for x in range(
-            self.figure_width + self.x,
-            self.surface_width,
-            self.figure_width*2
-        ):
-            for y in range(
-                self.figure_height + self.y,
-                self.surface_height,
-                self.figure_height*2
-            ):
+        for x in range(self.figure_width + self.x, self.surface_width, self.figure_width*2):
+            for y in range(self.figure_height + self.y, self.surface_height, self.figure_height*2):
                 self.elements.append(Megagon(
                     x,
                     y,
@@ -100,7 +92,8 @@ class MegagonsPattern:
                 ))
 
     def draw(self, elemname):
-        [el.draw(elemname) for el in self.elements]
+        for el in self.elements:
+            el.draw(elemname)
 
 
 class App:
@@ -126,7 +119,8 @@ class App:
     def _draw(self):
         pyxel.cls(SCREEN["bg"])
         # in draw method may be possible using "lines" and "pixels"
-        [ptn.draw("lines") for ptn in self.patterns]
+        for ptn in self.patterns:
+            ptn.draw("lines")
 
 
 if __name__ == "__main__":
