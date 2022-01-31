@@ -7,7 +7,7 @@ SCREEN = {
     "height": 120,
     "bg": 11,
     "fg": 7,
-    "caption": "megagon",
+    "title": "megagon",
 }
 
 
@@ -54,7 +54,7 @@ class Megagon:
         self.rotate_pos -= self.rotate_step
 
 
-class MegagonsPattern:
+class MegagonsPatternTable:
     def __init__(
         self,
         x,
@@ -92,15 +92,15 @@ class MegagonsPattern:
 class App:
     def __init__(self):
         pyxel.init(SCREEN["width"], SCREEN["height"],
-            caption=SCREEN["caption"].capitalize()
+            title=SCREEN["title"].capitalize()
         )
 
         size = min(SCREEN["width"], SCREEN["height"]) // 12
         verts_num = 4
         self.patterns = [
-            MegagonsPattern(0, 0, size, size, verts_num),
-            MegagonsPattern(1, 3, size, size, verts_num, col=8),
-            MegagonsPattern(-3, -1, size, size, verts_num, col=15),
+            MegagonsPatternTable(0, 0, size, size, verts_num),
+            MegagonsPatternTable(1, 3, size, size, verts_num, col=8),
+            MegagonsPatternTable(-3, -1, size, size, verts_num, col=15),
         ]
 
         pyxel.run(self._update, self._draw)
