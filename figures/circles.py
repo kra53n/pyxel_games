@@ -1,6 +1,5 @@
 from random import randrange
 from random import choice
-import itertools
 
 import pyxel
 
