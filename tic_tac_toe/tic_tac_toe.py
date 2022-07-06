@@ -11,14 +11,14 @@ TIC_COLOR = 11
 
 
 class Field:
-    def __init__(self, step=1):
+    def __init__(self, step=0):
         # NOTE: 1 - X; 0 - O
         self.field = [None for i in range(9)]
         self.__step = step
 
     def step(self):
         self.__step = 0 if self.__step else 1
-        return 0
+        return self.__step
 
     def game_end(self):
         return None not in self.field
@@ -54,7 +54,7 @@ class Draw:
         self.draw_text_name_of_game()
         self.draw_field(FIELD_COLOR)
 
-        if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             self.spawn_figure()
         self.draw_figures()
 
