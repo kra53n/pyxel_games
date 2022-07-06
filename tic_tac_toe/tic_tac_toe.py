@@ -17,29 +17,22 @@ class Field:
         self.__step = step
 
     def step(self):
-        if self.__step == 1:
-            self.__step = 0
-            return 1
-        self.__step = 1
+        self.__step = 0 if self.__step else 1
         return 0
 
     def game_end(self):
-        if None not in self.field:
-            return True
-        return False
+        return None not in self.field
     
     def game_win(self):
-        if self.field[0] == self.field[1] == self.field[2] != None or \
-           self.field[3] == self.field[4] == self.field[5] != None or \
-           self.field[6] == self.field[7] == self.field[8] != None or \
-           self.field[0] == self.field[3] == self.field[6] != None or \
-           self.field[1] == self.field[4] == self.field[7] != None or \
-           self.field[2] == self.field[5] == self.field[8] != None or \
-           self.field[0] == self.field[4] == self.field[8] != None or \
-           self.field[2] == self.field[4] == self.field[6] != None:
-               return True
-        return False
-    
+        return self.field[0] == self.field[1] == self.field[2] != None or \
+               self.field[3] == self.field[4] == self.field[5] != None or \
+               self.field[6] == self.field[7] == self.field[8] != None or \
+               self.field[0] == self.field[3] == self.field[6] != None or \
+               self.field[1] == self.field[4] == self.field[7] != None or \
+               self.field[2] == self.field[5] == self.field[8] != None or \
+               self.field[0] == self.field[4] == self.field[8] != None or \
+               self.field[2] == self.field[4] == self.field[6] != None
+   
 
 class Draw:
     def __init__(self, field=Field()):
