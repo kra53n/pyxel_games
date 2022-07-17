@@ -156,10 +156,9 @@ class App:
             self.ball.increase_speed()
 
     def game_run(self):
-        if pyxel.btnp(pyxel.KEY_SPACE) or self.run == True:
+        if pyxel.btnp(pyxel.KEY_SPACE) or self.run:
             self.run = True
-            return True
-        return False
+       return self.run
 
 
 if __name__ == "__main__":
