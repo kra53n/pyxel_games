@@ -91,15 +91,13 @@ class App:
         pyxel.run(self.update, self.draw)
     
     def update(self):
-        pass
+       self.game_reload()
 
     def draw(self):
         pyxel.cls(1)
         self.stick_player.draw()
         self.stick_enemy.draw(self.ball.x, self.ball.y, self.ball.move_x)
         self.score.draw()
-
-        self.game_run()
 
         self.ball.draw(self.run)
         self.move_stick()
@@ -114,52 +112,46 @@ class App:
 
     def change_ball_direction(self):
         # player stick rebound
-        if (self.ball.x - BALL_RADIUS <= self.stick_player.right_side) and \
-           ((self.stick_player.begin < self.ball.y + BALL_RADIUS) and \
-           (self.stick_player.end > self.ball.y - BALL_RADIUS)):
+        if (
+            self.ball.x - BALL_RADIUS <= self.stick_player.right_side)
+            and (self.stick_player.begin < self.ball.y + BALL_RADIUS
+                 and self.stick_player.end > self.ball.y - BALL_RADIUS)
+        ):
             self.ball.change_x_direction()
             self.ball.increase_speed()
 
         # enemy stick rebound
-        if (self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side) and \
-           ((self.stick_enemy.begin < self.ball.y + BALL_RADIUS) and \
-           (self.stick_enemy.end > self.ball.y - BALL_RADIUS)):
+        if (
+            self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side)
+            and (self.stick_enemy.begin < self.ball.y + BALL_RADIUS
+                 and self.stick_enemy.end > self.ball.y - BALL_RADIUS)
+        ):
             self.ball.change_x_direction()
             self.ball.increase_speed()
 
         # if player scored
-        if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2):
-            pyxel.play(1, 2)
+        scored = 'player' if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2) else ''
+        scored = 'enemy' if 0 >= self.ball.x - BALL_RADIUS else scored
+        if scored:
+            pyxel.play(1, 2 if 'player' else 1)
             self.ball.change_x_direction()
-            self.score.player += 1
-            self.ball.return_to_center()
-            self.ball.give_normal_speed()
-            self.run = False
-
-        # if enemy scored
-        if 0 >= self.ball.x - BALL_RADIUS:
-            pyxel.play(1, 1)
-            self.ball.change_x_direction()
-            self.score.enemy += 1
+            exec(f'self.score.{scored} += 1')
             self.ball.return_to_center()
             self.ball.give_normal_speed()
             self.run = False
 
         # rebound from top
-        if self.ball.y - BALL_RADIUS <= 0:
+        if (
+            self.ball.y - BALL_RADIUS <= 0
+            or self.ball.y + BALL_RADIUS >= SCREEN_HEIGHT
+        ):
             self.ball.change_y_direction()
             self.ball.increase_speed()
 
-        # reobund from bottom
-        if self.ball.y + BALL_RADIUS >= SCREEN_HEIGHT:
-            self.ball.change_y_direction()
-            self.ball.increase_speed()
-
-    def game_run(self):
+    def game_reload(self):
         if pyxel.btnp(pyxel.KEY_SPACE) or self.run:
             self.run = True
-       return self.run
 
-
+            
 if __name__ == "__main__":
     App()
