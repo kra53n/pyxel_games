@@ -10,7 +10,6 @@ from elements import GameStatus
 
 SCREEN_WIDTH, SCREEN_HEIGHT = [i // 10 for i in get_monitor_resolution()]
 SCREEN_CAPTION = "PyxelPingPong | PPP"
-SCREEN_SCALE = 1
 SCREEN_FPS = 60
 
 STICK_WIDTH = 2
@@ -25,7 +24,7 @@ COLOR_STICK_PLAYER = 8
 COLOR_STICK_ENEMY = 8
 COLOR_BALL = 7
 
-KEY_START = pyxel.KEY_ENTER
+KEY_START = pyxel.KEY_RETURN
 
 
 class App:
@@ -33,12 +32,11 @@ class App:
         pyxel.init(
             width=SCREEN_WIDTH,
             height=SCREEN_HEIGHT,
-            caption=SCREEN_CAPTION,
-            scale=SCREEN_SCALE,
+            title=SCREEN_CAPTION,
             fps=SCREEN_FPS,
             quit_key=pyxel.KEY_Q,
-            fullscreen=True,
         )
+        pyxel.fullscreen(True)
 
         pyxel.load("assets/my_resource.pyxres", sound=True)
         pyxel.playm(0, loop=True)
@@ -113,7 +111,7 @@ class App:
     def change_ball_direction(self):
         # player stick rebound
         if (
-            self.ball.x - BALL_RADIUS <= self.stick_player.right_side)
+            self.ball.x - BALL_RADIUS <= self.stick_player.right_side
             and (self.stick_player.begin < self.ball.y + BALL_RADIUS
                  and self.stick_player.end > self.ball.y - BALL_RADIUS)
         ):
@@ -122,7 +120,7 @@ class App:
 
         # enemy stick rebound
         if (
-            self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side)
+            self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side
             and (self.stick_enemy.begin < self.ball.y + BALL_RADIUS
                  and self.stick_enemy.end > self.ball.y - BALL_RADIUS)
         ):
