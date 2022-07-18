@@ -97,11 +97,11 @@ class App:
 
         size = min(SCREEN["width"], SCREEN["height"]) // 12
         verts_num = 4
-        self.patterns = [
+        self.patterns = (
             MegagonsPatternTable(0, 0, size, size, verts_num),
             MegagonsPatternTable(1, 3, size, size, verts_num, col=8),
             MegagonsPatternTable(-3, -1, size, size, verts_num, col=15),
-        ]
+        )
 
         pyxel.run(self._update, self._draw)
 
@@ -111,8 +111,8 @@ class App:
 
     def _draw(self):
         pyxel.cls(SCREEN["bg"])
-        # in draw method may be possible using "lines" and "pixels"
         for ptn in self.patterns:
+            # in draw method may be possible using "lines" and "pixels"
             ptn.draw("lines")
 
 
