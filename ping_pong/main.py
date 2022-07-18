@@ -1,11 +1,7 @@
 import pyxel
 from screen_resolution import get_monitor_resolution
 
-from elements import Stick
-from elements import StickEnemy
-from elements import Ball
-from elements import Score
-from elements import GameStatus
+from elements import Stick, StickEnemy, Ball, Score, GameStatus
 
 
 SCREEN_WIDTH, SCREEN_HEIGHT = [i // 10 for i in get_monitor_resolution()]
@@ -109,25 +105,20 @@ class App:
             self.stick_player.down(self.run)
 
     def change_ball_direction(self):
-        # player stick rebound
         if (
-            self.ball.x - BALL_RADIUS <= self.stick_player.right_side
+            # player stick rebound
+            (self.ball.x - BALL_RADIUS <= self.stick_player.right_side
             and (self.stick_player.begin < self.ball.y + BALL_RADIUS
-                 and self.stick_player.end > self.ball.y - BALL_RADIUS)
-        ):
-            self.ball.change_x_direction()
-            self.ball.increase_speed()
-
-        # enemy stick rebound
-        if (
-            self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side
+                 and self.stick_player.end > self.ball.y - BALL_RADIUS))
+            # enemy stick rebound
+            or (self.ball.x + (BALL_RADIUS * 2) >= self.stick_enemy.left_side
             and (self.stick_enemy.begin < self.ball.y + BALL_RADIUS
-                 and self.stick_enemy.end > self.ball.y - BALL_RADIUS)
+                 and self.stick_enemy.end > self.ball.y - BALL_RADIUS))
         ):
             self.ball.change_x_direction()
             self.ball.increase_speed()
 
-        # if player scored
+        # player scored
         scored = 'player' if SCREEN_WIDTH <= self.ball.x + (BALL_RADIUS * 2) else ''
         scored = 'enemy' if 0 >= self.ball.x - BALL_RADIUS else scored
         if scored:

@@ -37,7 +37,7 @@ class Stick(Element):
         return self.y + self.h
     
     def up(self, to_move):
-        if (self.y > 0) and to_move:
+        if self.y > 0 and to_move:
             self.y = self.y - self.move_step
 
     def down(self, to_move):
@@ -82,9 +82,7 @@ class Ball(Element):
         self.y += self.move_y
 
     def give_normal_speed(self):
-        move_step = randrange(
-            self.move_step * 10 - 3, (self.move_step * 10)
-        ) / 10
+        move_step = randrange(self.move_step * 10 - 3, self.move_step * 10) / 10
 
         self.move_x = -self.move_step
         self.move_y = self.move_step
@@ -93,27 +91,14 @@ class Ball(Element):
         x = self.move_x
         move_step = sqrt(abs(x)) / 100
 
-        if self.move_x > 0:
-            self.move_x += move_step
-        if self.move_x < 0:
-            self.move_x -= move_step
-
-        if self.move_y > 0:
-            self.move_y += move_step
-        if self.move_y < 0:
-            self.move_y -= move_step
+        for axis in (self.move_x, self.move_y):
+            axis = move_step if self.move_x > 0 else -move_step
 
     def change_x_direction(self):
-        if self.move_x > 0:
-            self.move_x = -self.move_x
-            return
-        self.move_x = abs(self.move_x)
+        self.move_x = -self.move_x if self.move_x > 0 else abs(self.move_x)
 
     def change_y_direction(self):
-        if self.move_y > 0:
-            self.move_y = -self.move_y
-            return
-        self.move_y = abs(self.move_y)
+        self.move_y = -self.move_y if self.move_y > 0 else abs(self.move_y)
 
     def return_to_center(self):
         self.x = self.screen_w // 2
