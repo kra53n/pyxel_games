@@ -51,8 +51,7 @@ class Particles:
             px.line(self.x, self.y, self.x, self.y + self.rng_y, PARTICLE_COL)
 
         for particle in self._queue:
-            # px.rect(*particle, self.size, self.size, PARTICLE_COL)
-            px.rect(*particle, self.size, self.size, PARTICLE_COL)
+           px.rect(*particle, self.size, self.size, PARTICLE_COL)
 
 
 def update(particles: Particles):
