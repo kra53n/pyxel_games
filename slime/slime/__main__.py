@@ -10,9 +10,8 @@ class App:
         pyxel.init(
             constants.SCREEN_WIDTH,
             constants.SCREEN_HEIGHT,
-            caption=constants.SCREEN_TITLE,
+            title=constants.SCREEN_TITLE,
             fps=constants.SCREEN_FPS,
-            scale=constants.SCREEN_SCALE,
         )
 
         self.ch = character.Character(40, 40)

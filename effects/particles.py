@@ -75,9 +75,14 @@ class Particles:
             particle[0] += cos(particle[4]) * self.speed
             particle[1] += sin(particle[4]) * self.speed
 
+<<<<<<< HEAD
     def draw(self):
         for particle in self.particles:
             px.rect(particle[0], particle[1], self.size, self.size, PARTICLE_COL)
+=======
+        for particle in self._queue:
+           px.rect(*particle, self.size, self.size, PARTICLE_COL)
+>>>>>>> 89b9d4ca6750c65523b1f6d5f057fece244dcddf
 
 
 def update(particles: Particles, vecs):
