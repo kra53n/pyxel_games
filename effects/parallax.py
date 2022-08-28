@@ -100,18 +100,14 @@ class App:
     def update(self):
         if px.btnp(px.KEY_Q):
             px.quit()
-
         self.player.update()
-
         for block in self.blocks:
             block.update(self.player.x, -self.player.y)
 
     def draw(self):
         px.cls(1)
-
         for block in self.blocks:
             block.draw()
-
         self.player.draw()
 
 
