@@ -6,32 +6,28 @@ WINDOW_HEIGHT = 150
 
 WINDOW_BACKGROUND_COLOR = 1
 FIELD_COLOR = 11
-TAC_COLOR = 11
-TIC_COLOR = 11
+TAC_COLOR = 12
+TIC_COLOR = 13
 
 
 class Field:
-    def __init__(self, step=0):
+    def __init__(self, step: int =0):
         # NOTE: 1 - X; 0 - O
-        self.field = [None for i in range(9)]
-        self.__step = step
+        self.field = [None for _ in range(9)]
+        self._step = step
 
     def step(self):
-        self.__step = 0 if self.__step else 1
-        return self.__step
+        self._step = not self._step
+        return self._step
 
     def game_end(self):
         return None not in self.field
     
     def game_win(self):
-        return self.field[0] == self.field[1] == self.field[2] != None or \
-               self.field[3] == self.field[4] == self.field[5] != None or \
-               self.field[6] == self.field[7] == self.field[8] != None or \
-               self.field[0] == self.field[3] == self.field[6] != None or \
-               self.field[1] == self.field[4] == self.field[7] != None or \
-               self.field[2] == self.field[5] == self.field[8] != None or \
-               self.field[0] == self.field[4] == self.field[8] != None or \
-               self.field[2] == self.field[4] == self.field[6] != None
+        fields = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7),
+                  (2, 5, 8), (0, 4, 8), (2, 4, 6))
+        values = tuple(tuple(self.field[idx] for idx in  group) for group in fields)
+        return any(map(lambda v: v[0] == v[1] == v[2] != None, values))
    
 
 class Draw:
@@ -87,7 +83,7 @@ class Draw:
         pyxel.circb(x + 19, y + 19, 15, color)
 
     def draw_figures(self):
-        if len(self.to_draw) == 0:
+        if not len(self.to_draw):
             return
         for figure in self.to_draw:
             if figure[0] == "tac":
@@ -97,9 +93,9 @@ class Draw:
 
     def spawn_figure(self):
         square = self.define_square(pyxel.mouse_x, pyxel.mouse_y)
-        if square != None:
+        if square is not None:
             field_num, x, y = square
-            if self.field.field[field_num] != None:
+            if self.field.field[field_num] is not None:
                 return
 
             self.field.field[field_num] = self.field.step()
@@ -111,7 +107,7 @@ class Draw:
     def define_square(self, x, y, x_begin=18, y_begin=18, x_move=38, y_move=38):
         x_pos, y_pos = x_begin, y_begin
         for sq in range(9):
-            if (sq % 3 == 0) and (sq != 0):
+            if sq % 3 == 0 and sq != 0:
                 x_pos = x_begin
                 y_pos += y_move
             if (x > x_pos and x < x_pos + x_move) and (y > y_pos and y < y_pos + y_move):
@@ -130,14 +126,14 @@ class Draw:
         if winner == "tic":
             winner = "0"
             color = TIC_COLOR
-        pyxel.text(60, 67, f"{winner} - win", color)
+        pyxel.text(60, 67, f"{winner} - win", color + 2)
 
     def game_restart_text(self, y, x=39):
         pyxel.text(x, y, "press R to resturt", pyxel.frame_count // 3 % 16)
 
     def game_restart(self):
         if pyxel.btnp(pyxel.KEY_R):
-            self.field.field = [None for i in range(9)]
+            self.field.field = [None for _ in range(9)]
             self.to_draw = []
 
 
