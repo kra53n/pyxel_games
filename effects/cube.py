@@ -39,6 +39,7 @@ class Vec:
         if (self._x or self._y) and (self._angle and self._ln) and self._ln:
             raise Exception('Vec should have x, y or angle, len or len as args')
 
+            
 class Cube:
     def __init__(self, x: int = 0, y: int = 0):
         self.x = x
