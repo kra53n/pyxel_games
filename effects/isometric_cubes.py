@@ -9,7 +9,7 @@ import pyxel as px
 from vec import Vec2
 
 
-SOURCE_FILE = 'cube.pyxres'
+SOURCE_FILE = 'isometric_cubes.pyxres'
 
 CUBE_W = 16
 CUBE_H = 17
