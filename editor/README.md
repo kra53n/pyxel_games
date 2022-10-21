@@ -10,5 +10,5 @@
 To install this packages you can run command below in command prompt:
 
 ```
-python -r requirements.txt
+pip install -r requirements.txt
 ```
