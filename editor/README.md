@@ -15,9 +15,11 @@ pip install -r requirements.txt
 
 ## Usage
 
-Keys                           | Action
------------------------------- | -------------------
-<kbd>Ctrl</kbd> + <kbd>S</kbd> | Save file as `16_bit editor.png`
-<kbd>C</kbd>                   | clear image with selected color
+Keys         | Action
+------------ | --------------------------------
+<kbd>S</kbd> | Save file as `16_bit editor.png`
+<kbd>C</kbd> | clear image with selected color
+<kbd>Z</kbd> | undo action
+<kbd>X</kbd> | recover action
 
 To choose colors press numbers on keyboard from <kbd>1</kbd>  to <kbd>9</kbd>.
