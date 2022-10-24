@@ -22,4 +22,4 @@ Keys         | Action
 <kbd>Z</kbd> | undo action
 <kbd>X</kbd> | recover action
 
-To choose colors press numbers on keyboard from <kbd>1</kbd>  to <kbd>9</kbd>.
+To choose colors press numbers on keyboard from <kbd>0</kbd> to <kbd>9</kbd>.

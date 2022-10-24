@@ -105,25 +105,62 @@ class Image:
                 px.pset(x, y, self._pixels[y][x])
 
 
+class Color:
+    def __init__(self):
+        self._col = 0
+        self._cols = [self._col]
+        self._last_kbd_input = px.frame_count
+        self._delay = 8
+
+    def _get_key(self):
+        for key in range(px.KEY_0, px.KEY_9 + 1):
+            if px.btnp(key):
+                return key
+        return
+
+    def _set_col(self, key):
+        frames = px.frame_count
+
+        self._cols.append(key - px.KEY_0)
+
+        if frames - self._last_kbd_input <= self._delay:
+            if len(self._cols) > 1:
+                self._col = self._cols.pop() + self._cols.pop() * 10
+                if self._col > 15:
+                    self._col //= 10
+        else:
+            if len(self._cols):
+                self._col = self._cols[-1]
+            self._last_kbd_input = frames
+            self._cols = self._cols[-2:]
+
+    def get_col(self):
+        return self._col
+
+    def update(self):
+        key = self._get_key()
+        if not key:
+            return
+        self._set_col(key)
+
+
 class Editor:
     def __init__(self):
         px.init(SCREEN_W, SCREEN_H, title=SCREEN_TITLE)
 
         self.img = Image()
-        self.cur_col = 0
+        self.col = Color()
         self.last_cur_col_update = px.frame_count
 
         px.run(self.update, self.draw)
 
     def update(self):
-        for key in range(px.KEY_1, px.KEY_9 + 1):
-            if px.btnp(key):
-                self.cur_col = key - px.KEY_1
-        self.img.update(col=self.cur_col)
+        self.col.update()
+        self.img.update(col=self.col.get_col())
 
     def draw(self):
         self.img.draw()
-        px.pset(px.mouse_x, px.mouse_y, self.cur_col)
+        px.pset(px.mouse_x, px.mouse_y, self.col.get_col())
 
 
 if __name__ == '__main__':
