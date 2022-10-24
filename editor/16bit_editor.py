@@ -150,7 +150,6 @@ class Editor:
 
         self.img = Image()
         self.col = Color()
-        self.last_cur_col_update = px.frame_count
 
         px.run(self.update, self.draw)
 
