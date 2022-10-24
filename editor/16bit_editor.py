@@ -45,7 +45,6 @@ class History:
 
     def add(self, x: int, y: int, img: int, col: int):
         elem = HistoryElem(x, y, img[y][x], col)
-        print(self._stack)
         if elem in self._stack:
             return
         self._idx += 1
@@ -72,7 +71,7 @@ class Image:
         self._history = History()
 
     def save(self):
-        filename = f'{(SCREEN_W + SCREEN_H) // 2}_bit editor.png'
+        filename = '16bit editor.png'
         f = open(filename, 'wb')
         w = png.Writer(SCREEN_W, SCREEN_H, palette=load_palette())
         w.write(f, self._pixels)
