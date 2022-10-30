@@ -77,20 +77,46 @@ class Image:
         w.write(f, self._pixels)
         f.close()
 
-    def _clear(self, col):
+    def pset(self, x: int, y: int, col: int):
+        self._history.add(x, y, self._pixels, col)
+        self._pixels[y][x] = col
+
+    def clear(self, col: int):
         for x in range(self._w):
             for y in range(self._h):
                 self._pixels[y][x] = col
 
+    def _recursive_filling(self, x: int, y: int, prv_col: int, nxt_col: int):
+        if self._pixels[y][x] != prv_col:
+            return
+        self.pset(x, y, nxt_col)
+        if x > 0 and y > 0:
+            self._recursive_filling(x - 1, y - 1, prv_col, nxt_col)
+        if x > 0:
+            self._recursive_filling(x - 1, y, prv_col, nxt_col)
+        if y > 0:
+            self._recursive_filling(x, y - 1, prv_col, nxt_col)
+        if x < self._w - 1 and y < self._h - 1:
+            self._recursive_filling(x + 1, y + 1, prv_col, nxt_col)
+        if x < self._w - 1:
+            self._recursive_filling(x + 1, y, prv_col, nxt_col)
+        if y < self._h - 1:
+            self._recursive_filling(x, y + 1, prv_col, nxt_col)
+
+    def fill(self, col: int):
+        self._recursive_filling(px.mouse_x, px.mouse_y,
+                                self._pixels[px.mouse_y][px.mouse_y], col)
+
     def update(self, **kw):
         assert 'col' in kw, 'should pass col as argument for update method'
-        col = kw['col']
+        col: int = kw['col']
 
         if px.btn(px.MOUSE_BUTTON_LEFT):
-            self._history.add(px.mouse_x, px.mouse_y, self._pixels, col)
-            self._pixels[px.mouse_y][px.mouse_x] = col
+            self.pset(px.mouse_x, px.mouse_y, col)
         if px.btnp(px.KEY_C):
-            self._clear(col)
+            self.clear(col)
+        if px.btnp(px.KEY_F):
+            self.fill(col)
         if px.btnp(px.KEY_S):
             self.save()
 

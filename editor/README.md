@@ -17,8 +17,9 @@ pip install -r requirements.txt
 
 Keys         | Action
 ------------ | --------------------------------
-<kbd>S</kbd> | Save file as `16_bit editor.png`
+<kbd>S</kbd> | save file as `16_bit editor.png`
 <kbd>C</kbd> | clear image with selected color
+<kbd>F</kbd> | filling
 <kbd>Z</kbd> | undo action
 <kbd>X</kbd> | recover action
 
