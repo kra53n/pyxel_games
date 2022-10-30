@@ -15,10 +15,10 @@ pip install -r requirements.txt
 
 ## Usage
 
-Keys         | Action
------------- | --------------------------------
-<kbd>S</kbd> | save file as `16_bit editor.png`
-<kbd>C</kbd> | clear image with selected color
+Keys         | Actions
+-----------: | :-------------------------------
+<kbd>S</kbd> | saving file as `16_bit editor.png`
+<kbd>C</kbd> | image clearing
 <kbd>F</kbd> | filling
 <kbd>Z</kbd> | undo action
 <kbd>X</kbd> | recover action
