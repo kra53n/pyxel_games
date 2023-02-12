@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ## Usage
 
 Keys         | Actions
------------: | :-------------------------------
+-----------: | :---------------------------------
 <kbd>S</kbd> | saving file as `16_bit editor.png`
 <kbd>C</kbd> | image clearing
 <kbd>F</kbd> | filling
